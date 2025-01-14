@@ -1,1 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random User-Agent Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f5;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Random User-Agent Generator</h1>
+<p>Nhập số lượng User-Agent muốn tạo:</p>
+<input type="number" id="quantity" placeholder="Nhập số lượng" min="1" value="10">
+<br>
+<button onclick="generateAndDownload()">Tạo và Tải về</button>
+
+<script>
+    function randomElement(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function generateRandomUserAgent() {
+        const platforms = ["iOS", "Android"];
+
+        // Dữ liệu cho iOS
+        const iosVersions = ["17_0", "17_1", "18_0", "18_1_1"];
+        const webkitVersions = ["605.1.15", "604.5.6", "603.3.8"];
+        const mobileVersions = ["15E148", "16E227", "17G68"];
+        const trillVersions = ["37.8.0", "37.9.4", "38.0.1"];
+        const jsSdkVersions = ["1.0", "2.0", "2.1"];
+        const netTypes = ["WIFI", "4G", "5G"];
+        const channels = ["App Store", "Google Play"];
+        const locales = ["vi", "en", "es", "fr"];
+        const regions = ["VN", "US", "FR", "DE", "ES"];
+
+        // Dữ liệu cho Android
+        const androidVersions = ["12", "13", "14"];
+        const androidBuilds = ["MMB29K", "N2G47H", "RP1A.190711.020", "UP1A.231005.007"];
+        const chromeVersions = ["131.0.6778.136", "130.0.6485.65", "132.0.6784.57"];
+        const appNames = ["trill"];
+        const appVersions = ["37.8.0", "37.9.4", "38.0.1"];
+        const appIds = ["1180", "1179", "1181"];
+        const sparkVersions = ["1.0.0", "1.1.0"];
+        const piaVersions = ["2.0.0", "2.1.0"];
+
+        // Chọn nền tảng ngẫu nhiên
+        const platform = randomElement(platforms);
+
+        // Chuỗi User-Agent cho từng nền tảng
+        return platform === "iOS"
+            ? `Mozilla/5.0 (iPhone; CPU iPhone OS ${randomElement(iosVersions)} like Mac OS X) AppleWebKit/${randomElement(webkitVersions)} (KHTML, like Gecko) Mobile/${randomElement(mobileVersions)} BytedanceWebview/d8a21c6 trill_${randomElement(trillVersions)} JsSdk/${randomElement(jsSdkVersions)} NetType/${randomElement(netTypes)} Channel/${randomElement(channels)} ByteLocale/${randomElement(locales)} Region/${randomElement(regions)} FalconTag/${crypto.randomUUID()}`
+            : `Mozilla/5.0 (Linux; Android ${randomElement(androidVersions)}; SM-X510 Build/${randomElement(androidBuilds)}; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/${randomElement(chromeVersions)} Safari/537.36 trill_${randomElement(trillVersions)} JsSdk/${randomElement(jsSdkVersions)} NetType/${randomElement(netTypes)} Channel/googleplay AppName/${randomElement(appNames)} app_version/${randomElement(appVersions)} ByteLocale/${randomElement(locales)}-${randomElement(locales)} ByteFullLocale/${randomElement(locales)}-${randomElement(locales)} Region/${randomElement(regions)} AppId/${randomElement(appIds)} Spark/${randomElement(sparkVersions)} AppVersion/${randomElement(appVersions)} PIA/${randomElement(piaVersions)} BytedanceWebview/d8a21c6`;
+    }
+
+    function generateAndDownload() {
+        const quantity = document.getElementById("quantity").value;
+        const userAgents = [];
+
+        for (let i = 0; i < quantity; i++) {
+            userAgents.push(generateRandomUserAgent());
+        }
+
+        const blob = new Blob([userAgents.join("\n")], { type: "text/plain" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "user_agents.txt";
+        link.click();
+    }
+</script>
+
+</body>
+</html>
 
